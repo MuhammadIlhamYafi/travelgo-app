@@ -16,7 +16,7 @@ function Home() {
     <div>
       {/* Hero / Banner */}
       <section className="bg-blue-600 text-white py-20 px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Jelajahi Dunia dengan TravelGo</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Jelajahi Dunia dengan TravelGo.</h1>
         <p className="text-lg mb-6 max-w-xl mx-auto">Temukan pengalaman baru dengan aktivitas seru, promo menarik, dan kenyamanan terbaik.</p>
         <a href="#categories" className="inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded hover:bg-gray-100 transition">Lihat Destinasi</a>
       </section>
