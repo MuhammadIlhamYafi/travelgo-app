@@ -3,84 +3,48 @@ import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 
 function Register() {
-  const [userData, setUserData] = useState({
+  const [form, setForm] = useState({
     name: '',
     email: '',
-    password: '',
     phoneNumber: '',
-    role: 'user', // default role
+    password: '',
   });
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post('/api/v1/register', userData);
-      alert('Registrasi berhasil! Silakan login.');
-      navigate('/login');
-    } catch (error) {
-      alert('Registrasi gagal: ' + error.response?.data?.message || error.message);
-    }
-  };
+  e.preventDefault();
+
+  if (!form.name || !form.email || !form.phoneNumber || !form.password) {
+    alert("Semua field wajib diisi.");
+    return;
+  }
+
+  const payload = { ...form, role: 'HL-BFN0Pzi5McnlAeG5OZOlMFHL9ZpB33EiOicUc_Mtz9NEM562GqtaJPe_', passwordRepeat: form.password, profilePictureUrl: "https://i.pravatar.cc/300?u=" + form.email};
+  console.log('Data dikirim ke API:', JSON.stringify(payload, null, 2));
+
+  try {
+    await API.post('/api/v1/register', payload);
+    alert('Registrasi berhasil! Silakan login.');
+    navigate('/login');
+  } catch (error) {
+    alert('Registrasi gagal: ' + (error.response?.data?.message || error.message));
+  }
+};
+
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <form onSubmit={handleRegister} className="bg-white p-8 shadow rounded max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Register</h2>
-
-        <div className="mb-4">
-          <label className="block mb-1 text-gray-700">Nama</label>
-          <input
-            type="text"
-            name="name"
-            value={userData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            required />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 text-gray-700">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={userData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            required />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 text-gray-700">No. HP</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={userData.phoneNumber}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            required />
-        </div>
-
-        <div className="mb-6">
-          <label className="block mb-1 text-gray-700">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={userData.password}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
-            required />
-        </div>
-
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Daftar</button>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form onSubmit={handleRegister} className="bg-white shadow-md p-8 rounded w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600 text-center">Register</h2>
+        <input name="name" type="text" placeholder="Nama Lengkap" onChange={handleChange} required className="mb-4 px-4 py-2 border rounded w-full" />
+        <input name="email" type="email" placeholder="Email" onChange={handleChange} required className="mb-4 px-4 py-2 border rounded w-full" />
+        <input name="phoneNumber" type="text" placeholder="Nomor HP" onChange={handleChange} required className="mb-4 px-4 py-2 border rounded w-full" />
+        <input name="password" type="password" placeholder="Password" onChange={handleChange} required className="mb-6 px-4 py-2 border rounded w-full" />
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 w-full rounded hover:bg-blue-700">Daftar</button>
       </form>
     </div>
   );
